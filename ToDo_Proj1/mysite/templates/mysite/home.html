@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<br>
+<h2>Django Apps</h2>
+<br>
+
+<div class="w-100">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <h4><i class="fas fa-tasks"></i> <a href="{% url 'todo:home' %}">To-Do List</a></h4>
+    </li>
+  </ul>
+</div>
+{% endblock %}

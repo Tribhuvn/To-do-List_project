@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+To-Do App | Home
+{% endblock %}
+
+{% block alert %}
+  <!-- Login Request   -->
+  <div class="container">
+      {% if not user.is_authenticated %}
+          <div class="alert alert-info" role="alert">
+            Please login to save the app data to your account
+          </div>
+      {% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+    <h1>To-Do List</h1>
+    <br>
+    <div>
+      <form class="form-inline" method="post" action="{% url 'todo:home' %}">
+        {% csrf_token %}
+        <input type="text" class="form-control mb-2 mr-sm-2" name="todo_item" placeholder="To-Do Item" required>
+        <button type="submit" class="btn btn-secondary mb-2">Add To List</button>
+      </form>
+
+      <br>
+
+      {% if todo_list %}
+        <table class="table  table-hover table-bordered">
+          {% for item in todo_list %}
+            <tbody>
+              {% if item.is_completed %}
+                <tr class="table-success">
+                  <td class="striker"><a href="{% url 'todo:edit_item' item_id=item.id %}">{{ item.item_name }}</td>
+                  <td class="text-center"><a href="{% url 'todo:mark_item' item_id=item.id %}">Uncross</a></td>
+                  <td class="text-center"><a href="{% url 'todo:delete_item' item_id=item.id %}">Delete</a></td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td><a href="{% url 'todo:edit_item' item_id=item.id %}">{{ item.item_name }}</td>
+                  <td class="text-center"><a href="{% url 'todo:mark_item' item_id=item.id %}">Cross Off</a></td>
+                  <td class="text-center"><a href="{% url 'todo:delete_item' item_id=item.id %}">Delete</a></td>
+                </tr>
+              {% endif %}
+            </tbody>
+          {% endfor %}
+        </table>
+      {% endif %}
+    </div>
+{% endblock %}
